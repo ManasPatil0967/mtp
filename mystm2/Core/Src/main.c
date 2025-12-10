@@ -37,8 +37,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-uint8_t text[] = "Lorem ipsum dolor sit amet\r\n";
-
+#define BUF_SIZE 1024
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -69,6 +68,21 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+volatile uint8_t uart_tx_done = 1;
+volatile uint8_t filled = 0;
+char CPU_BUF[BUF_SIZE];
+char DMA_BUF[BUF_SIZE];
+
+char *fill = CPU_BUF;
+char *send = DMA_BUF;
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if (huart->Instance == USART1) {
+        uart_tx_done = 1;
+    }
+}
+
 void UART_Printf(const char* fmt, ...) {
     char buffer[100];
     va_list args;
@@ -79,23 +93,14 @@ void UART_Printf(const char* fmt, ...) {
 }
 
 void UART_Printf_DMA(const char* fmt, ...) {
-    char buffer[100];
+	uart_tx_done = 0;
+    char buffer[1028];
     va_list args;
     va_start(args, fmt);
     vsnprintf(buffer, sizeof(buffer), fmt, args);
     va_end(args);
-    if(HAL_UART_GetState(&huart1) == HAL_UART_STATE_READY) {
-		HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buffer, strlen(buffer));
-    }
-}
-
-volatile uint8_t uart_tx_done = 1;
-
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-    if (huart->Instance == USART1) {
-        uart_tx_done = 1;
-    }
+    HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buffer, 1028);
+//    while(!uart_tx_done);
 }
 
 uint32_t Benchmark_UART(void)
@@ -114,7 +119,7 @@ uint32_t Benchmark_UART(void)
     end = DWT->CYCCNT;
     uint32_t cycles_blocking = end - start;
 
-    HAL_Delay(5); // spacing
+    HAL_Delay(5);
     UART_Printf("Blocking UART cycles:       %lu\r\n", cycles_blocking);
     HAL_Delay(5);
 
@@ -135,7 +140,6 @@ uint32_t Benchmark_UART(void)
 
     return cycles_dma_start;
 }
-
 
 
 /* USER CODE END 0 */
@@ -173,6 +177,12 @@ int main(void)
   MX_I2C1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  uint32_t start, end;
+  static const char msg1[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dolor ligula, sollicitudin tincidunt aliquam ac, mattis faucibus sem. Etiam commodo, sem semper consequat scelerisque, risus felis malesuada neque, vel faucibus nibh risus ut erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum nunc magna, tristique vitae tempus quis, egestas eu lectus. Mauris eget ultrices leo. Sed a velit a ante auctor pellentesque eu a mauris. Phasellus eget suscipit metus, vitae sodales libero. Morbi pharetra consequat felis. Sed luctus urna vel arcu hendrerit semper. Vivamus sem tortor, commodo eget quam nec, mollis iaculis diam. Ut placerat non mauris quis rutrum. Ut sit amet ipsum urna. Aenean ultricies ipsum quis mauris pulvinar, vitae vehicula nisl tempus. Praesent luctus est nec sollicitudin mattis. Integer non turpis iaculis, lacinia leo quis, euismod lacus. Curabitur lobortis lorem dolor, vitae volutpat mauris facilisis et. Etiam lacinia in quam eget fringilla. Ut aenean.\r\n";
+//  uint32_t msglen = strlen(msg1);
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+  DWT->CYCCNT = 0;
 
   /* USER CODE END 2 */
 
@@ -206,21 +216,14 @@ int main(void)
 //	  }
 //	  UART_Printf("\nEND_DATA\r\n");
 	  HAL_Delay(100);
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Toggle LED
-//	  uint32_t dma_cyc = Profile_UART_Methods();
-//	  UART_Printf("%lu\r\n", dma_cyc);
-//	  HAL_Delay(500);        // Wait 500ms
-//	  UART_Printf("\nARR:%lu PSC:%lu ARPE:%lu", TIM1->ARR, TIM1->PSC, TIM1->EGR);
-//	    uint32_t dmacyc = Profile_UART_Methods();
-//
-//	    UART_Printf("DMA_CYCLES: %lu\r\n", dmacyc);
-//
-//	    // Optional: wait for DMA completion before next iteration
-//	    while (!uart_dma_ready);
-//
-//	    HAL_Delay(500);
-	    Benchmark_UART();
-	    HAL_Delay(1000);
+	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+//	  Benchmark_UART();
+	  start = DWT->CYCCNT;
+	  UART_Printf_DMA(msg1);
+	  end = DWT->CYCCNT;
+	  while (!uart_tx_done);
+	  UART_Printf("Cycles from user def fn: %lu\r\n", end-start);
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
