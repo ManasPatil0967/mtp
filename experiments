@@ -36,9 +36,9 @@ Steps and Code for SSD1306:
 10/12/2025
 
 Profiling:
-Transmitting data: "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-1. Blocking on UART: 76867 cycles on average
-2. DMA: 1023 cycles
+Transmitting data: 1 KB Lorem Ipsum at 8 MHz
+1. Blocking on UART: 715089 cycles on average
+2. DMA: 6527 cycles
 
 Blocking Code: 
 HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
@@ -66,6 +66,10 @@ CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 DWT->CYCCNT = 0;
 var = DWT->CYCCNT;
+
+After removing strlen(msg):
+1. Blocking: 708930 cycles
+2. DMA: 350
 
 DMA Setup Tips: 
 1. Set up DMA in IOC Core
