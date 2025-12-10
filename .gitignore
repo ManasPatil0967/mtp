@@ -1,7 +1,7 @@
 # 1. Ignore Build Output Directories
-/Debug/
-/Release/
-/build/
+mystm2/Debug/
+mystm2/Release/
+mystm2/build/
 
 # 2. Ignore Compilation Artifacts (if generated outside build dirs)
 *.bin
