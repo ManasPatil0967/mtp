@@ -18,11 +18,11 @@ G -> GND
 3.3 -> VCC
 
 Steps and Code for SSD1306:
-1. Download headers and C files from github.com/afiskon/stm32-ssd1306 and put the headers in Core/Inc and C files in Core/Src.
+1. Download headers and C files from [https://github.com/afiskon/stm32-ssd1306](afiskon/stm32-ssd1306) and put the headers in Core/Inc and C files in Core/Src.
 2. Change the name of ssd_config_template.h to ssd_config.h.
 3. Change the height of screen in ssd1306.h.
 4. Use the snippet: 
-```
+```cpp
 #include <string.h>
 #include <stdarg.h>
 #include "ssd1306.h"
@@ -42,11 +42,11 @@ Transmitting data: 1 KB Lorem Ipsum at 8 MHz
 2. DMA: 6527 cycles
 
 Blocking Code: 
-```
+```cpp
 HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 ```
 DMA Code:
-```
+```cpp
 volatile uint8_t uart_tx_done = 1;
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
@@ -64,7 +64,7 @@ while (!uart_tx_done);
 ```
 
 Cycle Counter code:
-```
+```cpp
 uint32_t var;
 // Enable Cycle Counter
 CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
@@ -82,7 +82,7 @@ DMA Setup Tips:
 3. Ensure DMA init is before USART init.
 
 The benchmark UART function is as follows:
-```
+```cpp
 uint32_t Benchmark_UART(void)
 {
     static const char msg[] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dolor ligula, sollicitudin tincidunt aliquam ac, mattis faucibus sem. Etiam commodo, sem semper consequat scelerisque, risus felis malesuada neque, vel faucibus nibh risus ut erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum nunc magna, tristique vitae tempus quis, egestas eu lectus. Mauris eget ultrices leo. Sed a velit a ante auctor pellentesque eu a mauris. Phasellus eget suscipit metus, vitae sodales libero. Morbi pharetra consequat felis. Sed luctus urna vel arcu hendrerit semper. Vivamus sem tortor, commodo eget quam nec, mollis iaculis diam. Ut placerat non mauris quis rutrum. Ut sit amet ipsum urna. Aenean ultricies ipsum quis mauris pulvinar, vitae vehicula nisl tempus. Praesent luctus est nec sollicitudin mattis. Integer non turpis iaculis, lacinia leo quis, euismod lacus. Curabitur lobortis lorem dolor, vitae volutpat mauris facilisis et. Etiam lacinia in quam eget fringilla. Ut aenean.\r\n";
