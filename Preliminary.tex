@@ -1,0 +1,77 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+
+\title{An Initial Report on the Design of a Course on Signal Processing and Machine Learning}
+\author{Manas Patil \\Towards Seminar under the guidance of Prof. Vikram Gadre}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Signal processing and machine learning both today are mature fields, with an enormous body of content dedicated to teaching them. While the supply of Signal Processing (SP) courses has stayed steady, the sheer amount of tutorial effort being poured into Machine Learning (ML) is overwhelming but often superficial. The recent surge in ML courses, ranging from introductory level 'Get Started' courses to exploratory courses on niche concepts in ML and Deep Learning (DL), is noteworthy. The intersection of them, is however, less explored in tutorial capacity. This initial report covers the philosophy of such a course, the aims, a loose outline of a 4 week course (14 hours) and exercises. The report also discusses potential plans to telescope the course into 8 weeks (28 hours) and 12 weeks (40 hours). The intent of this document is to be a first draft, to be the subject of a discussion and begin iterations of improvements.
+
+\section{Philosophy}
+If a student approaches this intersection today, he will see the surprising depth of areas where SP and ML translate freely. Adaptive filtering and attention mechanisms, Gabor filters and CNN front-ends, Gaussian subsampling and ReLU. It is, however, not surprising at all. The language of operators working on sequences of multi-dimensional data to transform them (SP) or predict using them (ML) is interchangeable across domains. The common thread to focus on, especially in sound prerequisites of any student wanting to take this course, is thus, that of Linear Algebra. \\
+SVD, Eigendecomposition, and Matrix operations are how SP and ML actually talk to each other. While ML focuses on getting to the prediction using input in the multi-dimensional domain with specific loss-driven geometry shaping, SP focuses on transforming the input with specific objectives in mind about target output sequences. The goal of that transformation can be a prediction, thus making concepts in SP structured equivalents of several ML primitives. The language of that equivalence is linear algebra, because we are most comfortable talking about transformations using vectors and matrices since long. \\
+In semantics, it is enticing to choose the operation of convolution as a common thread between the two domains. Transforms in SP work on systems using convolution, the most prolific networks in ML - CNNs, use convolution. Et voila? Not really, because this metaphor stops here. SP is more about preservation of structure, explicit models, exploiting invariance than just convolution. The postulate of this common thread falls flat on its face even more glaringly in ML because there are so many models and paradigms to choose from. In SP too, the entire paradigm of time-frequency methods will feel disingenuous if we try to tether it to such a tenuous introduction. Linear Algebra however, carries through for semantic ease in both domains and students with excellent coverage of the following prerequisites should be able to follow this course well. \\
+We note, that the course is in the direction of ML, from SP. What this means, is that we cover the emerging concepts and frameworks in ML from a SP standpoint and understand the benefits of a structurally solid domain in a novel application.
+\subsection{Prerequisites to consider}
+\subsubsection{Signal Processing}
+Time sampling, Nyquist criteria, system properties, LSI systems, eigenfunction of LSI systems, DTFT, z-Transforms, IIR and FIR filter design strategies, frequency sampling, DFT, FFT, time-frequency uncertainty. \\
+Note that we leave out the specifics of filter design such as Butterworth and Chebyschev approximations or different window functions for FIR design. This is because a broad understanding of the need and objectives of the two different design paradigms is sufficient to carry for connections in SP and ML in this course. 
+\subsubsection{Machine Learning}
+Types of ML, Loss functions and design of loss functions, Linear and Logistic Regression, SVM, K-Means Clustering, Perceptron and Backpropagation, Entropy, Cross-entropy, Decision Trees. \\
+These are topics covered in any foundations of machine learning course.
+\subsubsection{Linear Algebra}
+Systems of linear equations, Operations, inverses, determinants, decompositions of matrices, Vector Spaces, subspaces, bases, dimension, span, linear independence, Linear Transformations, kernel, image, matrix representation, change of basis, and Eigenvalues, Eigenvectors, Diagonalization. 
+
+\section{Design Considerations}
+Following are some points to consider for such a course:
+\begin{enumerate}
+    \item The course should thus, be structured in a way that the connection between SP and ML emerges from the constructs presented. 
+    \item Time-frequency methods should take centre stage in the middle of the course, where temporal-spectral resolution aids ML and multi-rate processing is useful.
+    \item Features have temporal and spectral characteristics to consider that are often overlooked for e.g. EEG Signals. SP triumphs over traditional learned representations of such inputs in ML because of its natural focus on time and frequency.
+    \item We can choose a set of tasks that demonstrate the use of different SP concepts throughout the course.
+    \item The student should be able to take away a translation table of terms from SP to ML for practical design of networks.
+    \item Emphasis should also be given to places where we acknowledge real research is to be done in the intersection. This will surely come later in the course, however.
+    \item Coding in ML is primarily done in Python while in SP, MATLAB and Python are popular. Practical translations can be shown.
+\end{enumerate}
+
+\section{Broad Outline of 14 Hours}
+The 14-hour course should present the core insights with sufficient depth that students gain genuine understanding of the fundamental connections, but it should also leave clear pathways for deeper exploration. The following are my thoughts on what should cover the 14 hours: 
+\begin{enumerate}
+    \item First 4 hours: Briefly recap the concepts of sampling, system properties, transforms and filter types. Establish the resolution grounding and limitations of Discrete Time Fourier Transform here. A short tour of Machine Learning, covering supervised and unsupervised methods from the consistent lens of how the input is transformed, should be done.
+    \item Next 6 hours: Introduce time-frequency methods, input features as time-frequency characteristics, STFT, different window functions and their corresponding purposes, wavelets, wavelet families, their properties and their relation to the transformations earlier. The equivalence of these concepts with ML primitives should be emphasized at each step and how. This can discuss the changes of spectral characteristics in activation functions, the perceptron, layers, trained parameters, pooling, recurrent units, optimizers. Learned filtering, adaptive filtering should also be discussed.
+    \item The last set of 4 hours: Discuss the verticals of interpretability and economy of ML models using SP. Topics can include intrinsic vs post-hoc interpretability, causative analysis, ablation, learned representations, how SP can help them evolve through the network. Practical limitations of computation, extension of SP-ML intersection and deeper layer problems can be given space. Future directions should be discussed with curiosity as well.
+\end{enumerate}
+Some exercise and tutorial ideas are as follows:
+\begin{enumerate}
+    \item Here's one ML network with such and such layers. Transform this into a fixed parameter SP network with equivalent layers. Calculate the output for a sample input.
+    \item Give a "learned" filter from a simple trained CNN (e.g., edge detector) and ask them to plot its frequency response (Magnitude/Phase). Ask: "What type of filter is this? What are its characteristics?"
+    \item Probabilistic analyses of networks for ML primitives such as choice of loss functions for some SP network.
+    \item Parameter calculations, comparing interpretability benefits of different transforms, design of networks for specific economy goals.
+    \item Compare the energy decay of a signal in a Scattering Network vs. a standard Deep Net.
+    \item Here is a noisy input image that fools a classifier. Apply a simple Butterworth Low Pass Filter to the image. Does the classifier now predict correctly? (SP for preprocessing).
+    \item Prove that a max-pooling layer is translation invariant but not rotation invariant.
+\end{enumerate}
+
+\section{Telescope to longer durations}
+\subsection{To 28 hours}
+Increased focus on introductory concepts in time-frequency uncertainty. Add derivations of key methods, if any. Discuss fixed vs flexible network layers. Contrast SP methods on two or more tasks for a single topic. Add more solved problems.
+\subsection{To 40 hours}
+Here's where I need guidance and understanding. To give the whole experience in a SP-ML course, an increased focus on history of methods, their crossover, all derivations, more verticals such as deployment and augmentation to existing architectures can be discussed. One avenue can be Graph Signal Processing (GSP) where GNNs (Graph Neural Networks) are just Signal Processing on irregular domains. This is where the heavy research is happening right now. But more topics need to be added and the flow needs to be articulated to nail the sustained understanding we want the student to take away. 
+
+\section{Absent from the Report}
+\begin{enumerate}
+    \item Assessment: That is entirely intructor's prerogative.
+    \item Substance in the 'telescope' section: I need more know-how of pedagogy to understand and articulate the structure better.
+    \item NPTEL Specifics: I found conflicting information on the length and necessities of a NPTEL course. But the instructor will have correct information on the same.
+\end{enumerate}
+\end{document}
