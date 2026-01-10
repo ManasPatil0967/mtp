@@ -1,0 +1,341 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage[left=3cm,right=3cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{gensymb}
+\bibliography{references}
+
+\title{An Extended Report on the Design of a Course on Signal Processing and Machine Learning}
+\author{Manas Patil \\Towards Seminar under the guidance of Prof. Vikram Gadre}
+\date{05/01/2026}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+In the previous report, we confirmed the necessity of a common language and basis of Linear Algebra to bridge concepts in Signal Processing and Machine Learning. Furthermore, we discussed a loose design of 14 hours into three sections and a brief idea on how they can be resolved to higher durations in a telescopic manner. We also had some preliminary ideas as to what exercises each section shall contain. \\
+In a bid to better understand the specifics of what the lectures will contain and how they will realize this connection, this report aims to give a draft of the specific topics the series of lectures will cover, in the 1 month (4 week) duration. In that framework of this report, thus, a significant consideration is given to thinking about the exercises to be put in the course, their goals, format and manner, in which they will appear in the course. 
+
+\section{Exercises of the Course}
+\subsection{Goals}
+Part of what makes a course from an elite institution and instructor really shine and stick through is its choice of exercises. The consistent focus on solving challenging problems right in the class to tutorial problems at students' leisure in EE603, and even other classes that I took, makes me ruminate on this section a lot. When solving exercises for courses here at IITB, I am amazed at how much I could learn from solving just 10 questions. Of course, the logistics of a NPTEL course prevent us to liberally challenge the learner as we wish, more so accounting for the variety of learners the course can attract. Thus the following goals of an exercise section on each of the modular stages of the course emerge:
+\begin{enumerate}
+    \item An exercise must spur the learner to think more in a desired direction. Such questions must not be about specifics of calculation, but would rather make the student learn more about a broader domain of the topic by gentle nudge.
+    \item An exercise must be a good mix of detailed calculations, practical formulae-based questions and conceptual questions, those that need critical thinking to ascertain the theoretical insight and/or applications. 
+    \item The exercise should have a good mix of questions ranging in difficulty, from easy to difficult, with equivalent scores. But care must be put into design such that the score is not a function of the length of answer expected.
+\end{enumerate}
+
+\subsection{Styles}
+In the preliminary document we touched on the following ideas of exercises. These examples can be treated as styles for the entire course design.
+\begin{enumerate}
+    \item Following is an image reconstruction autoencoder with such and such layers. Transform this into a fixed parameter SP network with equivalent layers. Calculate the output for a sample input.
+    \item Give a "learned" filter from a simple trained CNN (e.g., edge detector), plot its frequency response (Magnitude/Phase). What type of filter is this? What are its characteristics?
+    \item Perform probabilistic analyses of networks for ML primitives such as choice of loss functions for some SP network, cross-entropy and KL divergence of models under pure ML and pure SP paradigms.
+    \item Parameter calculations of a scattering network, comparing interpretability benefits of different transforms, design of networks for specific economy goals.
+    \item Compare the energy decay of a signal in a Scattering Network vs. a standard Deep Net. How does signal energy of a preprocessed input flow through the deeper layers? Are there mechanisms to prevent that?
+    \item Here is a noisy input image that fools a classifier. Apply a simple Butterworth Low Pass Filter to the image. Does the classifier now predict correctly? (SP for preprocessing).
+    \item Prove that a max-pooling layer is translation invariant but not rotation invariant. Which signal processing system corresponds to such an operation? Hint: Pay close attention to the sampling rate sufficient for the transformed input. \\ Prove that average pooling is low pass filtering upto a constant.
+    \item Compare the utility of different wavelets (Haar, Daubechies, Morlet) for feature extraction from a given image. Hint: Think about their vanishing moments.
+    \item You are given a task to classify the musician/composer of a composition given the music signal. For its preprocessing, you perform the Fast Wavelet Transform on $2^n$ samples using Haar Wavelet and get a set of $n$ approximation $(cA)$ and detail $(cD)$ coefficients. For a pure SP-based classifier, how do you use these coefficients and the signal to classify? Which characteristics do you think would most help and which are certain to contain noise?
+    \item Which stages of a convolutional neural network for image recognition would most benefit from a signal processing primitive as against a traditional machine learning one?
+    % \item A Long-Short Term Memory model is made up of three units
+\end{enumerate}
+
+\section{A Draft Design of 14 hours}
+The following is a tentative design of 14 hours of the 4 week edition of the course. The table aims, not to dictate the specifics, but rather to pinpoint the topics from the broad themes of preliminary report. Appropriate exercise sessions are included as well.
+\begin{description}
+    \item[\textbf{Lecture 1: Introduction to the Course}] 
+    Introduce students to the purview and topics of the course. Motivate the necessity of this intersection to the students. Provide examples in interpretability and economy of SP-based ML systems against traditional ML systems to further solidify the need of the course.
+
+    \item[\textbf{Lecture 2: Background -- Signal Processing}] 
+    Revise time sampling of a bandlimited signal and system properties leading to need and computation of DTFT. Explain limitations of DTFT from the point of view of time-frequency resolution. Motivate the need of time-frequency resolution. Explain the relation of t-f uncertainty.
+
+    \item[\textbf{Lecture 3: Background -- Signal Processing continued}] 
+    Compare the Short Time Fourier Transform as a fixed approach to Wavelets in light of t-f resolution. Show the comparison for typical inputs to a predictive system such as image, audio and text. Explain detail and approximation from the point of view of feature extraction. Compare Haar and Daubechies wavelets for extraction of different features. 
+
+    \item[\textbf{Lecture 4: Machine Learning from the view of Signal Processing}] Take three typical predictive tasks - image recognition, audio classification and sentiment analysis of text, to cover convolutional neural networks and recurrent neural networks. Reimagine activation functions, convolutional layers and pooling layers as SP operations (decimation, convolution and filtering/subsampling). Motivate the forget, input and output gate operations in a RNN as IIR filtering of a nonlinear dynamic system \cite{1, 2}.
+
+    \item[\textbf{Lecture 5: Exercise Session 1}] 
+    Questions on equivalence of machine learning and signal processing primitives, discovered until now. Comparison style and probabilistic analysis questions.
+
+    \item[\textbf{Lecture 6: Features as Time-Frequency Characteristics}] 
+    Discuss the spectral characteristics of typical inputs. Motivate t-f resolution in sequential processing, recalling earlier RNN - IIR connection. Introduce typical ML primitives and operations on inputs as transformations of these characteristics. Develop a basic translation table of terms between ML and SP, \textit{using linear algebraic forms.}
+
+    \item[\textbf{Lecture 7: Scattering Network and other SP-based Designs}]
+    Introduce scattering network as the first solid SP-based ML network for a predictive task \cite{3}. Explain its detailed structure, advantages in t-f localization and limitations.
+
+    \item[\textbf{Lecture 8: Subspace Connections}] 
+    Recap the Haar MRA Subspaces - $V_n$, approximation subspace and $W_n$, detail subspace, generated by averaging and differencing. Compare to CNNs in terms of what if approximation/detail were learned rather than fixed? Show how CNN filters resemble wavelets but adapt to task. 
+
+    \item[\textbf{Lecture 9: Adaptive Filters as Learning Layers}] 
+    Explain and demonstrate the progression from fixed wavelets (Haar, Daubechies) to parametric wavelets (SincNet style cutoff) to fully learned wavelets. Discuss their utility and applications. Discuss DAWN \cite{4} that learns wavelet configurations adaptively, showing that learned wavelets can match or exceed fixed scattering networks \cite{5}.
+
+    \item[\textbf{Lecture 10: Exercise Section 2}] 
+    Energy decay, choice of layer and example-based SP-ML equivalence questions among others. 
+
+    \item[\textbf{Lecture 11: Computational Economy of SP-based ML}] 
+    Perform parameter calculations on scattering network and Gabor filter based networks. Compare parameters of a traditional ML network. Motivate the need of hybrid architectures in this vertical.
+
+    \item[\textbf{Lecture 12: Explainability and Interpretability of SP-based ML}] 
+    Introduce intrinsic and post-hoc interpretability. Present the black-box nature of traditional ML models. Introduce Grad-CAM and SHAP scores for explainability and their limitations. Present SP-based networks as intrinsically interpretable because of spectral characteristics and inherent causality. Discuss relevant research.
+
+    \item[\textbf{Lecture 13: Exercise Section 3}] 
+    Parameter calculation, design choices for interpretability, intrinsic vs post-hoc deductions, comparison style questions.    
+
+    \item[\textbf{Lecture 14: Further Scope and Applications}] 
+    Discuss bleeding edge research in SP-ML intersection, practical applications in biomedical and commercial domains. Motivate potential research questions in deeper layer mechanisms, causal structures and performance considerations of SP-based ML.
+\end{description}
+
+\section{Telescoping Thoughts}
+The following are some thoughts on how to extend the skeleton above to longer durations, resolving what is necessary to a greater detail while expounding on details left out for brevity.
+\subsection{To 28 hours i.e. 2 weeks course}
+\begin{enumerate}
+    \item Extend initial three lectures to double the length for more background of SP possibly covering STFT and a detailed exposition on all methods popular in ML delineating specific areas where SP can be useful i.e. deep neural networks.
+    \item Add a dedicated module of multi-rate processing and its applications in ML, covering adaptive sampling based on input distribution, multi-rate training as an analogy of polyphase decomposition \cite{6} and broadly tying it as a device of t-f localization. This will help solidify themes of multi-rate processing implicit in introduction of wavelets in the first section.
+    \item Explain in detail the linear algebraic representations of transforms in SP to help clarify by clear association their equivalents in ML. 
+    \item Present design caveats of SP-based methods, such as sensitivity to noise, modeling of input distributions and implementation considerations.
+    \item Introduce the device of Wigner-Ville Distribution for time-frequency analysis and its possible applications in ML.
+    \item Explore hardware verticals, especially those involving lightweight devices and inference-on-chip models, their constraints and the utility of hybrid architectures.
+\end{enumerate}
+
+\subsection{To the full 40 hours i.e. 3 weeks course}
+To extend the course to a full 12 credit - 40 hours course, keeping the extensions of 28 hours version, following ideas can be carried out:
+\begin{enumerate}
+    \item Add detailed expositions on SincNet and DAWN to further understand parametric wavelets and fully learned wavelets in purpose of ML.
+    \item Introduce and explain evaluation metrics of SP-based ML models. Explain the choice of metrics for certain tasks and pose problems to solidify intuition.
+    \item Spend some more time on adaptive filters and their practical implementations as well as parameter and memory considerations.
+    \item Introduce ensemble learning, online learning and contrastive learning in ML. Try and motivate their signal processing analogues using examples. 
+    \item Introduce more advanced primitives and designs in the area, such as Gabor filter based CNNs and SincNets among others.
+\end{enumerate}
+Further discussion on the topics and knowledge of the involved subjects will help this final form a lot more. 
+
+\newpage
+\section{Two Solved Problems}
+\subsection{Q1.}
+Compare the energy decay of a signal in a Scattering Network vs. a standard Deep Net. How does signal energy of a preprocessed input flow through the deeper layers? Are there mechanisms to prevent that?
+
+\subsubsection*{Solution:}
+
+% \subsubsection*{Energy Decay Analysis}
+
+\subsubsection*{1. Scattering Networks:}
+
+The scattering transform is defined as a cascade of wavelet transforms with modulus nonlinearity:
+$$
+S_J x = \{x \star \phi_J, |x \star \psi_{\lambda_1}| \star \phi_J, ||x \star \psi_{\lambda_1}| \star \psi_{\lambda_2}| \star \phi_J, \ldots\}
+$$
+
+where $\psi_{\lambda}$ are complex wavelets at scale $\lambda$, $\phi_J$ is a lowpass filter, and $\star$ denotes convolution.
+
+\textit{Energy Conservation Property:} For any signal $x \in L^2(\mathbb{R}^d)$, the scattering transform satisfies:
+$$
+\|x\|^2 = \sum_{p} \|S_p[x]\|^2
+$$
+
+where the sum is over all scattering paths $p$. This follows from Parseval's theorem and the fact that the wavelet transform is unitary.
+
+\textbf{Proof sketch:} At each layer $m$, the modulus operator $|z|$ preserves energy:
+$$
+\int |z(t)|^2 \, dt = \int z(t) \overline{z(t)} \, dt
+$$
+Since wavelets form a tight frame with frame bounds $A = B = 1$, energy is redistributed across scattering coefficients but not lost.
+
+\subsubsection*{2. Standard Deep Networks:}
+
+Consider a standard CNN with ReLU activations and max-pooling. Let $x^{(l)}$ denote the activation at layer $l$.
+
+At layer $l$:
+$$
+x^{(l+1)} = \text{MaxPool}(\text{ReLU}(W^{(l)} x^{(l)} + b^{(l)}))
+$$
+
+\textit{Energy loss mechanisms:}
+
+\textbf{(a) ReLU Activation:}
+$$
+\text{ReLU}(z) = \max(0, z) = \begin{cases} z & z \geq 0 \\ 0 & z < 0 \end{cases}
+$$
+
+For zero-mean activations (typical after batch normalization), approximately 50\% of values are zeroed. Energy after ReLU:
+$$
+E_{\text{after ReLU}} \approx \frac{1}{2} E_{\text{before ReLU}}
+$$
+
+More precisely, for Gaussian-distributed pre-activations $z \sim \mathcal{N}(0, \sigma^2)$:
+$$
+\mathbb{E}[\text{ReLU}(z)^2] = \frac{\sigma^2}{2}
+$$
+
+\textbf{(b) Max-Pooling:}
+
+Max-pooling over $k \times k$ windows selects $\frac{1}{k^2}$ of the input values. For a 2D signal:
+$$
+E_{\text{after pooling}} = \frac{1}{k^2} \sum_{\text{windows}} \max(\text{window values})^2
+$$
+
+Since $\max(a_1, \ldots, a_n) \leq \sqrt{\sum a_i^2}$ (Cauchy-Schwarz), max-pooling induces energy loss.
+
+\textbf{Cumulative effect over $L$ layers:}
+
+Assuming independent energy loss at each layer:
+$$
+E_L \approx E_0 \cdot \left(\frac{1}{2}\right)^L \cdot \left(\frac{1}{k^2}\right)^{L/p}
+$$
+
+where $p$ is the pooling frequency. This suggests \textit{exponential} decay with depth.
+
+\subsection{Q2.}
+Prove that a max-pooling layer is translation invariant but not rotation invariant. Which signal processing system corresponds to such an operation? Hint: Pay close attention to the sampling rate sufficient for the transformed input.
+
+\subsubsection*{Solution:}
+
+\subsubsection*{Part 1: Translation Invariance of Max-Pooling}
+
+\textbf{Definition:} A function $f$ is translation invariant if $f(T_{\tau} x) = T_{\tau} f(x)$ for all shifts $\tau$, where $T_{\tau}$ denotes translation by $\tau$.
+
+For discrete signals, max-pooling with stride $s$ and window size $k$ is defined as:
+$$
+y[n] = \max_{i \in [0, k-1]} x[sn + i]
+$$
+
+\textbf{Theorem:} Max-pooling exhibits \textit{approximate translation invariance} with invariance up to stride $s$.
+
+\textbf{Proof:}
+
+Consider a 1D signal $x[n]$ and its shifted version $\tilde{x}[n] = x[n - \tau]$.
+
+\textbf{Case 1:} $\tau$ is a multiple of stride $s$, i.e., $\tau = ms$ for integer $m$.
+
+Max-pooling output for $x$:
+$$
+y[n] = \max_{i \in [0, k-1]} x[sn + i]
+$$
+
+Max-pooling output for $\tilde{x}$:
+$$
+\tilde{y}[n] = \max_{i \in [0, k-1]} \tilde{x}[sn + i] = \max_{i \in [0, k-1]} x[sn + i - ms] = y[n - m]
+$$
+
+Thus, $\tilde{y}[n] = y[n - m]$, confirming \textit{exact translation invariance} for shifts that are multiples of stride.
+
+\textbf{Case 2:} $\tau$ is not a multiple of $s$, i.e., $\tau = ms + r$ where $0 < r < s$.
+
+In this case:
+$$
+\tilde{y}[n] = \max_{i \in [0, k-1]} x[sn + i - ms - r]
+$$
+
+The pooling windows are now misaligned by $r$ samples. The output $\tilde{y}[n]$ may equal $y[n-m]$ or $y[n-m-1]$, depending on where the maximum value falls within the window.
+
+$\therefore$ Max-pooling is \textit{exactly invariant} to translations by multiples of stride, and \textit{approximately invariant} (up to one output sample shift) for arbitrary translations.
+
+\subsubsection*{Part 2: Rotation Non-Invariance of Max-Pooling}
+A function $f$ is rotation invariant if $f(R_{\theta} x) = R_{\theta} f(x)$ for all rotations $R_{\theta}$.
+
+\textbf{Proof by Counterexample:}
+
+Consider a $4 \times 4$ image $X$ with a $2 \times 2$ max-pooling operation (stride 2):
+
+Original image:
+$$
+X = \begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+Max-pooling output:
+$$
+Y = \text{MaxPool}(X) = \begin{bmatrix}
+1 & 0 \\
+0 & 0
+\end{bmatrix}
+$$
+
+Now rotate $X$ by $45\degree$ (using bilinear interpolation for continuous rotation):
+$$
+X_{45\degree} \approx \begin{bmatrix}
+0.5 & 0.5 & 0 & 0 \\
+0.5 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0 \\
+0 & 0 & 0 & 0
+\end{bmatrix}
+$$
+
+Max-pooling output after rotation:
+$$
+Y_{45\degree} = \text{MaxPool}(X_{45\degree}) = \begin{bmatrix}
+0.5 & 0 \\
+0 & 0
+\end{bmatrix}
+$$
+
+Rotating $Y$ by $45\degree$ gives a different result than $Y_{45\degree}$, proving non-invariance.
+
+% \textbf{Intuition:} Max-pooling operates on a fixed rectangular grid. Rotation changes the spatial arrangement of values relative to this grid, causing different maxima to be selected.
+
+\subsubsection*{Part 3: Signal Processing Analogue}
+
+Max-pooling can be understood as a combination of two SP operations:
+
+\textbf{1. Envelope Detection (Nonlinear Operation):}
+
+In SP, the envelope of a signal $x(t)$ is:
+$$
+e(t) = |x(t) + j\mathcal{H}[x(t)]|
+$$
+
+where $\mathcal{H}$ is the Hilbert transform. Max-pooling similarly extracts "peaks" or local maxima, acting as a \textit{discrete envelope detector}.
+
+\textbf{2. Downsampling with Anti-Aliasing (Subsampling):}
+
+After detecting local maxima, max-pooling subsamples by stride $s$. In classical SP:
+$$
+y[n] = x[sn]
+$$
+
+However, max-pooling does NOT apply an anti-aliasing lowpass filter before subsampling.
+
+% \textbf{Nyquist Consideration (per hint):}
+
+For a signal bandlimited to $f_{\max}$, subsampling by factor $s$ requires sampling rate $f_s \geq 2sf_{\max}$ to avoid aliasing. Max-pooling implicitly assumes the \textit{output after max operation} is bandlimited enough for stride-$s$ subsampling. This is often violated, leading to aliasing in the feature maps.
+
+Therefore, max-pooling $\approx$ Envelope Detection + Subsampling without Anti-Aliasing.
+
+A more faithful SP implementation would be:
+$$
+y[n] = \max_{i \in [0, k-1]} h[i] \cdot x[sn + i]
+$$
+
+where $h[i]$ is a lowpass filter (e.g., Gaussian or Butterworth). This corresponds to \textit{soft-max pooling} or \textit{Lp-pooling with $p \to \infty$}.
+
+\subsubsection*{Translation Invariance in SP Terms}
+
+Max-pooling is shift-invariant (for stride-aligned shifts) because:
+- The \textit{operation} (taking maximum) commutes with translation: $\max(x[n - \tau]) = \max(x[n]) - \tau$ (in index)
+Thus, the downsampling grid is fixed, so shifts by multiples of stride preserve alignment.
+
+However, rotation changes the \textit{orientation} of features relative to the pooling grid, which is fundamentally a Cartesian operation. Rotation invariance would require pooling in a \textit{polar coordinate system} or using \textit{orientation-adaptive windows}, which standard max-pooling does not provide.
+
+$\therefore$ Max-pooling is translation-invariant but not rotation-invariant because it operates on a fixed rectangular lattice. The SP analogue is envelope detection + unfiltered subsampling, which respects shift symmetry but not rotational symmetry of the Euclidean plane.
+
+\section{Conclusion}
+This report aimed to provide a more complete picture of the course as I am thinking. The subsequent discussions with the instructor will help the course evolve into flesh and skin from this skeleton and realize the pedagogical value of this bright intersection.
+
+\begin{thebibliography}{99}
+    \bibitem{1} "Feedforward Sequential Memory Networks: A New Structure to Learn Long-term Dependency", Shiliang Zhang, Cong Liu, Hui Jiang, Si Wei, Lirong Dai, Yu Hu, arXiv, \url{https://doi.org/10.48550/arXiv.1512.08301}
+    \bibitem{2}"DIFFERENTIABLE IIR FILTERS FOR MACHINE LEARNING APPLICATIONS", Boris Kuznetsov, Julian Parker, Fabian Esqueda, 2020,
+    \url{https://api.semanticscholar.org/CorpusID:226299392}
+    \bibitem{3} "Invariant Scattering Convolution Networks", Joan Bruna, Stéphane Mallat, 2012, \url{https://doi.org/10.48550/arXiv.1203.1513}
+    \bibitem{4} "Deep Adaptive Wavelet Network", Bastidas, Ximena, Gruson, Adrien, Polania, Luisa, Fujieda, Shin, Ortiz, Flavio, Takayama, Kohei, Hachisuka, Toshiya. (2019). DOI: 10.48550/arXiv.1912.05035. 
+    \bibitem{5} "Wavelet Convolutional Neural Networks," Fujieda, Shin \& Takayama, Kohei \& Hachisuka, Toshiya. (2018).  DOI: 10.48550/arXiv.1805.08620. 
+    \bibitem{6} "Multirate Training of Neural Networks", Tiffany Vlaar, Benedict Leimkuhler, ICML 2022. \url{https://doi.org/10.48550/arXiv.2106.10771}
+\end{thebibliography}
+
+\end{document}
