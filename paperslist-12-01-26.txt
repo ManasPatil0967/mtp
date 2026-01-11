@@ -1,0 +1,95 @@
+Gadre, V.M., et al. "Adaptive Generalised Fractional Spectrogram and Its Applications" Circuits, Systems and Signal Processing, 2020
+https://doi.org/10.1007/s00034-020-01442-6
+
+Sahay, P., et al. "Generalized Fractional Ambiguity Function and Applications" CSSP, 2020
+https://doi.org/10.1007/s00034-020-01398-7
+
+Gray, R.M., Neuhoff, D.L. "Quantization" IEEE Trans. IT, 1998
+https://doi.org/10.1109/18.720541
+
+Unser, M. "Sampling—50 Years After Shannon" IEEE Proc., 2000
+https://doi.org/10.1109/5.843002
+
+Ravanelli, M., Bengio, Y. "Speaker Recognition from Raw Waveform with SincNet" IEEE SLT Workshop, 2018
+https://doi.org/10.1109/SLT.2018.8639585
+
+Izzuddin, T.A., et al. "Compact CNN based on SincNet for end-to-end motor imagery decoding" Biocybernetics and Biomedical Engineering, 2021
+https://doi.org/10.1016/j.bbe.2021.08.003
+
+Lawhern, V.J., et al. "EEGNet: A Compact CNN for EEG-based BCIs" J. Neural Eng., 2018
+https://doi.org/10.1088/1741-2552/aace8c
+
+Schirrmeister, R.T., et al. "Deep Learning with Convolutional Neural Networks for EEG Decoding" Human Brain Mapping, 2017
+https://doi.org/10.1002/hbm.23730
+
+Roy, Y., et al. "Deep Learning-based Electroencephalography Analysis: A Systematic Review" J. Neural Eng., 2019
+https://doi.org/10.1088/1741-2552/ab260c
+
+Craik, A., et al. "Deep Learning for EEG: State of the Art and Future Directions" J. Neural Eng., 2019
+https://doi.org/10.1088/1741-2552/ab0ab5
+
+Pillar 2b: Foundation Models for EEG
+Harkare, V.J., Subramanian, L. "BrainAlign: Leveraging EEG Foundation Models..." NeurIPS Workshop, 2025
+https://neurips.cc/virtual/2025/131384
+
+Wang, J., et al. "CBraMod: A Criss-Cross Brain Foundation Model for EEG Decoding" arXiv, 2024
+https://doi.org/10.48550/arXiv.2412.07236
+
+Jiang, W., et al. "Large Brain Model for Learning Generic Representations (LaBraM)" arXiv, 2024
+https://doi.org/10.48550/arXiv.2405.18765
+
+Kostas, D., et al. "BENDR: Using Transformers and Contrastive Learning for EEG" Frontiers in Human Neuroscience, 2021
+https://doi.org/10.3389/fnhum.2021.653659
+
+Critical Papers on Learned vs. Fixed Representations
+Fujieda, S., et al. "Wavelet Convolutional Neural Networks" arXiv, 2018
+https://doi.org/10.48550/arXiv.1805.08620
+
+Bastidas, X., et al. "Deep Adaptive Wavelet Network (DAWN)" arXiv, 2019
+https://doi.org/10.48550/arXiv.1912.05035
+
+Pillar 3: Resource-Constrained Implementation
+Banner, R., et al. "Post-Training 4-bit Quantization of CNNs for Resource-Efficient Inference" NeurIPS, 2019
+https://papers.nips.cc/paper/9008-post-training-4-bit-quantization-of-convolutional-networks-for-rapid-deployment
+
+Rusci, M., et al. "Hardware-Aware Neural Architecture Search..." IJCAI, 2021
+https://doi.org/10.24963/ijcai.2021/592
+
+Sailesh, M., Selvakumar, K. "A Novel Framework for CNN Deployment using PTQ on Microcontrollers" Microprocessors and Microsystems, 2022
+https://doi.org/10.1016/j.micpro.2022.104634
+
+Buzsáki, G., Draguhn, A. "Neuronal Oscillations in Cortical Networks" Science, 2004
+https://doi.org/10.1126/science.1099745
+
+Pfurtscheller, G., Lopes da Silva, F.H. "Event-Related EEG/MEG Synchronization and Desynchronization" Clinical Neurophysiology, 1999
+https://doi.org/10.1016/S1388-2457(99)00141-8
+
+Bruna, J., Mallat, S. "Invariant Scattering Convolution Networks" IEEE TPAMI, 2013
+https://doi.org/10.1109/TPAMI.2012.230
+
+Andén, J., Mallat, S. "Deep Scattering Spectrum" IEEE Trans. SP, 2014
+https://doi.org/10.1109/TSP.2014.2326991
+
+Vaswani, A., et al. "Attention is All You Need" NeurIPS, 2017
+https://papers.nips.cc/paper/7181-attention-is-all-you-need
+
+Zerveas, G., et al. "A Transformer-based Framework for Multivariate Time Series Representation Learning" KDD, 2021
+https://doi.org/10.1145/3447548.3467401
+
+Orjuela-Cañón, A.D., et al. (Listed as Craik et al.) "Time and Frequency Domain Features Extraction Comparison for Motor Imagery Detection" Applications of Computational Intelligence, 2021
+https://doi.org/10.1007/978-3-030-69774-7_6
+
+Sakhavi, S., et al. "Learning Temporal Information for BCI Using CNNs" IEEE TNNLS, 2018
+https://doi.org/10.1109/TNNLS.2018.2789927
+
+Dose, H., et al. "An End-to-End Deep Learning Approach to MI-EEG Classification" Expert Systems with Applications, 2018
+https://doi.org/10.1016/j.eswa.2018.08.031
+
+Hwaidi, J.F., Chen, T. "Classification of Motor Imagery EEG Using Deep Learning" IEEE Access, 2022
+https://doi.org/10.1109/ACCESS.2022.3171906
+
+Rodriguez, C., et al. "Embedded System on ARM for HRV Analysis Using Wavelets" Wireless Communications and Mobile Computing, 2018
+https://doi.org/10.1155/2018/6468208
+
+Chen, Y., et al. "Hardware-Based Simplified DWT for Detecting High-Voltage Spindles" Conference Paper, 2017
+https://www.researchgate.net/publication/318326292_Hardware-based_simplified_discrete_wavelet_transform_for_detecting_high-voltage_spindles_in_neuron_signals
