@@ -139,7 +139,7 @@ Then reset and the code works. Before uploading, reset the CAM as well.
 Code used to stream camera to webserver: CameraWebServer example.
 Tactile button added with GPIO 13 to Button terminal (springing side) one to GND.
 Add the following code to the CameraWebServer example main sketch. This code connects to the mobile WiFi and renders the captured image there:
-```
+```cpp
 #include "esp_camera.h"
 #include "Arduino.h"
 #include "WiFi.h"
