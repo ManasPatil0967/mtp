@@ -234,7 +234,23 @@ void DMA1_Channel5_IRQHandler(void)
 void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQn 0 */
+    if (__HAL_UART_GET_FLAG(&huart1, UART_FLAG_IDLE)) {
+        __HAL_UART_CLEAR_IDLEFLAG(&huart1);
 
+        // Stop DMA and get received count
+        HAL_UART_DMAStop(&huart1);
+        uint16_t received = BUFFER_SIZE - __HAL_DMA_GET_COUNTER(huart1.hdmarx);
+
+        // Validate frame
+        if (received == BUFFER_SIZE &&
+            rx_buffer[0] == 0xAA &&
+            rx_buffer[BUFFER_SIZE - 1] == 0x55) {
+            frame_ready = 1;
+        }
+
+        // Restart for next frame
+        HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE);
+    }
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */

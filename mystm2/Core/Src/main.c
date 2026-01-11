@@ -38,6 +38,7 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define BUF_SIZE 1024
+#define IMAGE_BUF_SIZE 2*BUF_SIZE
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -70,11 +71,20 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN 0 */
 volatile uint8_t uart_tx_done = 1;
 volatile uint8_t filled = 0;
+uint8_t* rxbuf[IMAGE_BUF_SIZE];
+volatile uint8_t frame_ready = 0;
+
 char CPU_BUF[BUF_SIZE];
 char DMA_BUF[BUF_SIZE];
 
 char *fill = CPU_BUF;
 char *send = DMA_BUF;
+
+void StartReception(void) {
+    __HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+
+    HAL_UART_Receive_DMA(&huart1, rx_buffer, BUFFER_SIZE);
+}
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
@@ -183,6 +193,8 @@ int main(void)
   CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
   DWT->CYCCNT = 0;
+  int16_t image[IMAGE_BUF_SIZE];
+  StartReception();
 
   /* USER CODE END 2 */
 
@@ -195,8 +207,8 @@ int main(void)
     /* USER CODE BEGIN 3 */
 	  ssd1306_Init();
 	  ssd1306_SetCursor(0, 0);
-	  ssd1306_WriteString("Resampling...", Font_6x8, White);
-	  ssd1306_UpdateScreen();
+//	  ssd1306_WriteString("Resampling...", Font_6x8, White);
+//	  ssd1306_UpdateScreen();
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13); // Toggle LED
 //	  UART_Printf("START_DATA\r\n");
 //	  for(int i = 0; i < 100; i++) {
@@ -217,12 +229,20 @@ int main(void)
 //	  UART_Printf("\nEND_DATA\r\n");
 	  HAL_Delay(100);
 	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+	  if(frame_ready) {
+		  frame_ready = 0;
+		  image = (int16_t*)&rxbuf[1];
+	  }
 //	  Benchmark_UART();
-	  start = DWT->CYCCNT;
-	  UART_Printf_DMA(msg1);
-	  end = DWT->CYCCNT;
-	  while (!uart_tx_done);
-	  UART_Printf("Cycles from user def fn: %lu\r\n", end-start);
+//	  start = DWT->CYCCNT;
+//	  UART_Printf_DMA(msg1);
+//	  end = DWT->CYCCNT;
+//	  while (!uart_tx_done);
+//	  UART_Printf("Cycles from user def fn: %lu\r\n", end-start);
+//	  char cyclestr[16];
+//	  sprintf(cyclestr, "%lu", end-start);
+//	  ssd1306_WriteString(cyclestr, Font_6x8, White);
+//	  ssd1306_UpdateScreen();
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
