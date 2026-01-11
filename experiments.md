@@ -128,11 +128,11 @@ uint32_t Benchmark_UART(void)
 
 D-SUN USB-to-TTL connections with the ESP32 CAM OV3660 module:
 
-D-SUN Pin	ESP32-CAM Pin	Purpose
-5V	5V	Power (Do not use 3.3V)
-GND	GND	Ground
-TX	U0R (GPIO 3)	Data from PC to ESP
-RX	U0T (GPIO 1)	Data from ESP to PC
+D-SUN Pin	ESP32-CAM Pin	Purpose \
+5V	5V	Power (Do not use 3.3V) \
+GND	GND	Ground \
+TX	U0R (GPIO 3)	Data from PC to ESP \
+RX	U0T (GPIO 1)	Data from ESP to PC \
 
 To flash code on the ESP32 CAM, connect GPIO 0 to the GND besides it and upload the code. 
 Then reset and the code works. Before uploading, reset the CAM as well.
