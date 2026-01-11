@@ -132,7 +132,7 @@ D-SUN Pin	ESP32-CAM Pin	Purpose \
 5V	5V	Power (Do not use 3.3V) \
 GND	GND	Ground \
 TX	U0R (GPIO 3)	Data from PC to ESP \
-RX	U0T (GPIO 1)	Data from ESP to PC \
+RX	U0T (GPIO 1)	Data from ESP to PC 
 
 To flash code on the ESP32 CAM, connect GPIO 0 to the GND besides it and upload the code. 
 Then reset and the code works. Before uploading, reset the CAM as well.
@@ -147,15 +147,9 @@ Add the following code to the CameraWebServer example main sketch. This code con
 #include "soc/soc.h"
 #include "soc/rtc_cntl_reg.h"
 
-// ===================
-// WiFi Credentials
-// ===================
-const char* ssid = "Galaxy A316A42";
-const char* password = "patilmanas";
+const char* ssid = "";
+const char* password = "";
 
-// ===================
-// Pin Definitions
-// ===================
 #define PWDN_GPIO_NUM     32
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM      0
@@ -177,14 +171,12 @@ const char* password = "patilmanas";
 #define LED_GPIO_NUM      33
 #define BUTTON_PIN        13
 
-// Global variables
 httpd_handle_t server = NULL;
 camera_fb_t *last_capture = NULL;
 unsigned long lastDebounceTime = 0;
 const unsigned long debounceDelay = 200;
 int captureCount = 0;
 
-// HTML page with auto-refresh
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE html>
 <html>
@@ -287,13 +279,11 @@ const char index_html[] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
-// Handler: Serve main page
 esp_err_t index_handler(httpd_req_t *req) {
   httpd_resp_set_type(req, "text/html");
   return httpd_resp_send(req, index_html, strlen(index_html));
 }
 
-// Handler: Return last captured image
 esp_err_t capture_handler(httpd_req_t *req) {
   if (last_capture == NULL) {
     // No image yet, capture one
@@ -309,7 +299,6 @@ esp_err_t capture_handler(httpd_req_t *req) {
   return httpd_resp_send(req, (const char *)last_capture->buf, last_capture->len);
 }
 
-// Handler: Live stream frame
 esp_err_t stream_handler(httpd_req_t *req) {
   camera_fb_t *fb = esp_camera_fb_get();
   if (!fb) {
@@ -323,7 +312,6 @@ esp_err_t stream_handler(httpd_req_t *req) {
   return res;
 }
 
-// Handler: Trigger capture from web button
 esp_err_t trigger_handler(httpd_req_t *req) {
   // Release old frame
   if (last_capture) {
@@ -335,7 +323,6 @@ esp_err_t trigger_handler(httpd_req_t *req) {
   if (flush) esp_camera_fb_return(flush);
   delay(50);
   
-  // Capture new frame
   digitalWrite(LED_GPIO_NUM, LOW);
   last_capture = esp_camera_fb_get();
   digitalWrite(LED_GPIO_NUM, HIGH);
@@ -351,7 +338,6 @@ esp_err_t trigger_handler(httpd_req_t *req) {
   return httpd_resp_send(req, count_str, strlen(count_str));
 }
 
-// Handler: Get capture count
 esp_err_t count_handler(httpd_req_t *req) {
   char count_str[16];
   sprintf(count_str, "%d", captureCount);
@@ -364,7 +350,6 @@ void startWebServer() {
   config.server_port = 80;
 
   if (httpd_start(&server, &config) == ESP_OK) {
-    // Register URI handlers
     httpd_uri_t index_uri = {
       .uri       = "/",
       .method    = HTTP_GET,
@@ -419,19 +404,16 @@ void setup() {
   Serial.println("ESP32-CAM OV3660 Web Server");
   Serial.println("=================================");
 
-  // Setup GPIO
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   pinMode(LED_GPIO_NUM, OUTPUT);
   digitalWrite(LED_GPIO_NUM, HIGH);
 
-  // Check PSRAM
   if (psramFound()) {
     Serial.println("PSRAM: OK");
   } else {
     Serial.println("PSRAM: Not found!");
   }
 
-  // Camera config
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer = LEDC_TIMER_0;
@@ -467,7 +449,6 @@ void setup() {
     config.fb_location = CAMERA_FB_IN_DRAM;
   }
 
-  // Init camera
   Serial.print("Camera: ");
   if (esp_camera_init(&config) != ESP_OK) {
     Serial.println("FAILED!");
@@ -475,7 +456,6 @@ void setup() {
   }
   Serial.println("OK");
 
-  // OV3660 settings
   sensor_t *s = esp_camera_sensor_get();
   Serial.printf("Sensor PID: 0x%x\n", s->id.PID);
   if (s->id.PID == 0x3660) {
@@ -483,7 +463,6 @@ void setup() {
     s->set_brightness(s, 1);
   }
 
-  // Connect to WiFi
   Serial.printf("Connecting to %s", ssid);
   WiFi.begin(ssid, password);
   
@@ -492,7 +471,6 @@ void setup() {
     delay(500);
     Serial.print(".");
     attempts++;
-    // Blink LED while connecting
     digitalWrite(LED_GPIO_NUM, !digitalRead(LED_GPIO_NUM));
   }
   
@@ -509,10 +487,8 @@ void setup() {
   Serial.println(WiFi.localIP());
   Serial.println("=================================");
 
-  // Start web server
   startWebServer();
 
-  // Ready blink
   for (int i = 0; i < 3; i++) {
     digitalWrite(LED_GPIO_NUM, LOW);
     delay(100);
@@ -522,12 +498,10 @@ void setup() {
 }
 
 void loop() {
-  // Physical button capture
   if (digitalRead(BUTTON_PIN) == LOW) {
     if ((millis() - lastDebounceTime) > debounceDelay) {
       lastDebounceTime = millis();
       
-      // Release old frame
       if (last_capture) {
         esp_camera_fb_return(last_capture);
         last_capture = NULL;
@@ -537,9 +511,8 @@ void loop() {
       if (flush) {
         esp_camera_fb_return(flush);
       }
-      delay(50);  // Small delay to let camera capture fresh frame
+      delay(50);
       
-      // Capture new
       digitalWrite(LED_GPIO_NUM, LOW);
       last_capture = esp_camera_fb_get();
       digitalWrite(LED_GPIO_NUM, HIGH);
@@ -549,7 +522,6 @@ void loop() {
         Serial.printf("Button capture #%d (%u bytes)\n", captureCount, last_capture->len);
       }
       
-      // Wait for release
       while (digitalRead(BUTTON_PIN) == LOW) {
         delay(10);
       }
