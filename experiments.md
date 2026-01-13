@@ -4,7 +4,7 @@ Devices used:
 1. STM32F103C8T6, apparently called Blue Pill board.
 2. ESP32 DOIT Devkit V1
 3. STLink V2
-4. OLED SSD1306 128*32
+4. OLED SSD1306 128 * 32
 
 Connections for UART Bridge (STM32 -> ESP32):
 A9 -> RX2

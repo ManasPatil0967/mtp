@@ -1,9 +1,7 @@
-# 1. Ignore Build Output Directories
 mystm2/Debug/
 mystm2/Release/
 mystm2/build/
 
-# 2. Ignore Compilation Artifacts (if generated outside build dirs)
 *.bin
 *.elf
 *.hex
@@ -12,3 +10,5 @@ mystm2/build/
 *.o
 *.d
 *.su
+
+cifar-10-python
